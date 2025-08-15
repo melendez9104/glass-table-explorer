@@ -2,70 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system Windows 11 inspired with glassmorphism effects
-All colors MUST be HSL.
-Purple (#7A00FF) and Black (#0D0D0D) theme with glassmorphism
+/* Design system com cores mais claras e vibrantes
+Glassmorphism com tons luminosos e modernos
 */
 
 @layer base {
   :root {
-    /* Base colors - Windows 11 Dark Theme */
-    --background: 220 13% 8%;
-    --foreground: 0 0% 95%;
+    /* Base colors - Tons claros e luminosos */
+    --background: 220 30% 96%;
+    --foreground: 220 15% 15%;
 
-    /* Glass card with transparency */
-    --card: 260 60% 10%;
-    --card-foreground: 0 0% 95%;
+    /* Glass card com transparência clara */
+    --card: 240 50% 98%;
+    --card-foreground: 220 15% 20%;
 
-    /* Popover with glass effect */
-    --popover: 260 60% 12%;
-    --popover-foreground: 0 0% 95%;
+    /* Popover com efeito glass claro */
+    --popover: 240 30% 97%;
+    --popover-foreground: 220 15% 25%;
 
-    /* Primary purple (#7A00FF) */
-    --primary: 260 100% 50%;
+    /* Primary roxo vibrante mais claro */
+    --primary: 260 85% 65%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 260 100% 65%;
-    --primary-dark: 260 100% 35%;
+    --primary-glow: 260 90% 75%;
+    --primary-dark: 260 70% 55%;
 
-    /* Secondary glass surfaces */
-    --secondary: 220 13% 15%;
-    --secondary-foreground: 0 0% 90%;
+    /* Secondary com tons claros */
+    --secondary: 240 20% 92%;
+    --secondary-foreground: 220 15% 30%;
 
-    /* Muted glass elements */
-    --muted: 220 13% 12%;
-    --muted-foreground: 0 0% 65%;
+    /* Muted elements claros */
+    --muted: 240 15% 90%;
+    --muted-foreground: 220 10% 45%;
 
-    /* Accent purple tones */
-    --accent: 260 60% 20%;
-    --accent-foreground: 0 0% 95%;
+    /* Accent com tons luminosos */
+    --accent: 260 40% 88%;
+    --accent-foreground: 220 15% 25%;
 
-    /* Destructive red */
-    --destructive: 0 85% 60%;
+    /* Destructive suave */
+    --destructive: 0 70% 70%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders and inputs with glass effect */
-    --border: 260 20% 25%;
-    --input: 260 20% 18%;
-    --ring: 260 100% 50%;
+    /* Borders e inputs com tons claros */
+    --border: 240 20% 85%;
+    --input: 240 25% 88%;
+    --ring: 260 85% 65%;
 
-    /* Glass surface colors */
-    --glass-primary: 260 60% 15%;
-    --glass-secondary: 220 13% 10%;
-    --glass-accent: 260 40% 20%;
+    /* Glass surface colors - tons claros */
+    --glass-primary: 260 40% 95%;
+    --glass-secondary: 240 25% 94%;
+    --glass-accent: 260 30% 90%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(260 100% 50%), hsl(280 100% 60%));
+    /* Gradients luminosos */
+    --gradient-primary: linear-gradient(135deg, hsl(260 85% 65%), hsl(280 90% 75%));
     --gradient-glass: linear-gradient(135deg, 
-      hsla(260, 60%, 15%, 0.8), 
-      hsla(280, 40%, 20%, 0.6));
+      hsla(260, 40%, 95%, 0.9), 
+      hsla(280, 30%, 92%, 0.8));
     --gradient-surface: linear-gradient(180deg, 
-      hsla(220, 13%, 12%, 0.95), 
-      hsla(260, 20%, 8%, 0.95));
+      hsla(240, 30%, 97%, 0.95), 
+      hsla(260, 25%, 94%, 0.95));
 
-    /* Shadows with glow effects */
-    --shadow-glass: 0 8px 32px hsla(260, 100%, 50%, 0.12);
-    --shadow-primary: 0 0 20px hsla(260, 100%, 50%, 0.3);
-    --shadow-elevated: 0 12px 40px hsla(0, 0%, 0%, 0.4);
+    /* Shadows com brilho suave */
+    --shadow-glass: 0 8px 32px hsla(260, 60%, 70%, 0.15);
+    --shadow-primary: 0 0 25px hsla(260, 85%, 65%, 0.4);
+    --shadow-elevated: 0 12px 40px hsla(220, 30%, 60%, 0.2);
 
     /* Animation properties */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -73,52 +72,46 @@ Purple (#7A00FF) and Black (#0D0D0D) theme with glassmorphism
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar colors integrados */
+    --sidebar-background: 240 40% 96%;
+    --sidebar-foreground: 220 15% 25%;
+    --sidebar-primary: 260 85% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 260 40% 88%;
+    --sidebar-accent-foreground: 220 15% 25%;
+    --sidebar-border: 240 20% 85%;
+    --sidebar-ring: 260 85% 65%;
   }
 
-  /* Light mode variant - keeping the same dark theme for consistency */
+  /* Light mode variant - tons ainda mais claros */
   .light {
-    --background: 220 13% 8%;
-    --foreground: 0 0% 95%;
-    --card: 260 60% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 260 60% 12%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 260 100% 50%;
+    --background: 240 40% 98%;
+    --foreground: 220 15% 15%;
+    --card: 240 60% 99%;
+    --card-foreground: 220 15% 20%;
+    --popover: 240 50% 98%;
+    --popover-foreground: 220 15% 25%;
+    --primary: 260 80% 60%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 13% 15%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 220 13% 12%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 260 60% 20%;
-    --accent-foreground: 0 0% 95%;
-    --destructive: 0 85% 60%;
+    --secondary: 240 30% 95%;
+    --secondary-foreground: 220 15% 30%;
+    --muted: 240 20% 93%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 260 50% 90%;
+    --accent-foreground: 220 15% 25%;
+    --destructive: 0 65% 65%;
     --destructive-foreground: 0 0% 100%;
-    --border: 260 20% 25%;
-    --input: 260 20% 18%;
-    --ring: 260 100% 50%;
-    --sidebar-background: 260 60% 12%;
-    --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 260 100% 50%;
+    --border: 240 25% 87%;
+    --input: 240 30% 90%;
+    --ring: 260 80% 60%;
+    --sidebar-background: 240 40% 96%;
+    --sidebar-foreground: 220 15% 25%;
+    --sidebar-primary: 260 80% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 40% 20%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 260 20% 25%;
-    --sidebar-ring: 260 100% 50%;
+    --sidebar-accent: 260 40% 88%;
+    --sidebar-accent-foreground: 220 15% 25%;
+    --sidebar-border: 240 25% 87%;
+    --sidebar-ring: 260 80% 60%;
   }
 }
 
@@ -142,33 +135,33 @@ Purple (#7A00FF) and Black (#0D0D0D) theme with glassmorphism
     overflow-x: hidden;
   }
 
-  /* Glassmorphism utility classes */
+  /* Glassmorphism utility classes com tons claros */
   .glass {
-    background: hsla(var(--glass-primary), 0.1);
+    background: hsla(var(--glass-primary), 0.3);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid hsla(var(--border), 0.2);
+    border: 1px solid hsla(var(--border), 0.4);
     box-shadow: var(--shadow-glass);
   }
 
   .glass-card {
-    background: hsla(var(--card), 0.05);
+    background: hsla(var(--card), 0.2);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid hsla(var(--border), 0.15);
+    border: 1px solid hsla(var(--border), 0.3);
     box-shadow: var(--shadow-glass);
   }
 
   .glass-surface {
-    background: hsla(var(--glass-secondary), 0.08);
+    background: hsla(var(--glass-secondary), 0.25);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid hsla(var(--border), 0.1);
+    border: 1px solid hsla(var(--border), 0.2);
   }
 
-  /* Glow effects */
+  /* Glow effects mais suaves */
   .primary-glow {
-    box-shadow: 0 0 20px hsla(var(--primary), 0.4);
+    box-shadow: 0 0 25px hsla(var(--primary), 0.5);
   }
 
   .hover-glow {
@@ -177,7 +170,7 @@ Purple (#7A00FF) and Black (#0D0D0D) theme with glassmorphism
 
   .hover-glow:hover {
     box-shadow: var(--shadow-primary);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   /* Smooth animations */
@@ -209,22 +202,24 @@ Purple (#7A00FF) and Black (#0D0D0D) theme with glassmorphism
     }
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar com cores claras */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: hsla(var(--muted), 0.1);
+    background: hsla(var(--muted), 0.3);
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsla(var(--primary), 0.6);
-    border-radius: 3px;
+    background: hsla(var(--primary), 0.7);
+    border-radius: 4px;
+    border: 1px solid hsla(var(--background), 0.2);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsla(var(--primary), 0.8);
+    background: hsla(var(--primary), 0.9);
   }
 }
