@@ -2,116 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system com cores mais claras e vibrantes
-Glassmorphism com tons luminosos e modernos
+/* Design system inspirado em dashboard profissional
+Layout clean com cards brancos e sidebar roxa
 */
 
 @layer base {
   :root {
-    /* Base colors - Tons claros e luminosos */
-    --background: 220 30% 96%;
-    --foreground: 220 15% 15%;
+    /* Base colors - Fundo branco limpo */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 4.9%;
 
-    /* Glass card com transparência clara */
-    --card: 240 50% 98%;
-    --card-foreground: 220 15% 20%;
+    /* Cards brancos com sombra suave */
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 4.9%;
 
-    /* Popover com efeito glass claro */
-    --popover: 240 30% 97%;
-    --popover-foreground: 220 15% 25%;
+    /* Popover limpo */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 4.9%;
 
-    /* Primary roxo vibrante mais claro */
-    --primary: 260 85% 65%;
+    /* Primary roxo profissional */
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 260 90% 75%;
-    --primary-dark: 260 70% 55%;
+    --primary-light: 262 83% 65%;
+    --primary-dark: 262 83% 45%;
 
-    /* Secondary com tons claros */
-    --secondary: 240 20% 92%;
-    --secondary-foreground: 220 15% 30%;
+    /* Secondary clean */
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222.2 84% 4.9%;
 
-    /* Muted elements claros */
-    --muted: 240 15% 90%;
-    --muted-foreground: 220 10% 45%;
+    /* Muted elements */
+    --muted: 210 40% 98%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    /* Accent com tons luminosos */
-    --accent: 260 40% 88%;
-    --accent-foreground: 220 15% 25%;
+    /* Accent suave */
+    --accent: 210 40% 98%;
+    --accent-foreground: 222.2 84% 4.9%;
 
-    /* Destructive suave */
-    --destructive: 0 70% 70%;
+    /* Destructive clean */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders e inputs com tons claros */
-    --border: 240 20% 85%;
-    --input: 240 25% 88%;
-    --ring: 260 85% 65%;
+    /* Borders e inputs clean */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 262 83% 58%;
 
-    /* Glass surface colors - tons claros */
-    --glass-primary: 260 40% 95%;
-    --glass-secondary: 240 25% 94%;
-    --glass-accent: 260 30% 90%;
+    /* Sidebar colors - roxo profissional */
+    --sidebar-background: 262 83% 58%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 262 83% 58%;
+    --sidebar-accent: 262 83% 65%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 262 83% 65%;
+    --sidebar-ring: 0 0% 100%;
 
-    /* Gradients luminosos */
-    --gradient-primary: linear-gradient(135deg, hsl(260 85% 65%), hsl(280 90% 75%));
-    --gradient-glass: linear-gradient(135deg, 
-      hsla(260, 40%, 95%, 0.9), 
-      hsla(280, 30%, 92%, 0.8));
-    --gradient-surface: linear-gradient(180deg, 
-      hsla(240, 30%, 97%, 0.95), 
-      hsla(260, 25%, 94%, 0.95));
-
-    /* Shadows com brilho suave */
-    --shadow-glass: 0 8px 32px hsla(260, 60%, 70%, 0.15);
-    --shadow-primary: 0 0 25px hsla(260, 85%, 65%, 0.4);
-    --shadow-elevated: 0 12px 40px hsla(220, 30%, 60%, 0.2);
+    /* Card shadows profissionais */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
     /* Animation properties */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    --radius: 0.75rem;
-
-    /* Sidebar colors integrados */
-    --sidebar-background: 240 40% 96%;
-    --sidebar-foreground: 220 15% 25%;
-    --sidebar-primary: 260 85% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 40% 88%;
-    --sidebar-accent-foreground: 220 15% 25%;
-    --sidebar-border: 240 20% 85%;
-    --sidebar-ring: 260 85% 65%;
-  }
-
-  /* Light mode variant - tons ainda mais claros */
-  .light {
-    --background: 240 40% 98%;
-    --foreground: 220 15% 15%;
-    --card: 240 60% 99%;
-    --card-foreground: 220 15% 20%;
-    --popover: 240 50% 98%;
-    --popover-foreground: 220 15% 25%;
-    --primary: 260 80% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 30% 95%;
-    --secondary-foreground: 220 15% 30%;
-    --muted: 240 20% 93%;
-    --muted-foreground: 220 10% 45%;
-    --accent: 260 50% 90%;
-    --accent-foreground: 220 15% 25%;
-    --destructive: 0 65% 65%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 240 25% 87%;
-    --input: 240 30% 90%;
-    --ring: 260 80% 60%;
-    --sidebar-background: 240 40% 96%;
-    --sidebar-foreground: 220 15% 25%;
-    --sidebar-primary: 260 80% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 40% 88%;
-    --sidebar-accent-foreground: 220 15% 25%;
-    --sidebar-border: 240 25% 87%;
-    --sidebar-ring: 260 80% 60%;
+    --radius: 0.5rem;
   }
 }
 
@@ -127,36 +82,29 @@ Glassmorphism com tons luminosos e modernos
 
   body {
     @apply bg-background text-foreground;
-    background-image: var(--gradient-surface);
-    background-attachment: fixed;
+    background: hsl(var(--background));
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     font-weight: 400;
     line-height: 1.6;
     overflow-x: hidden;
   }
 
-  /* Glassmorphism utility classes com tons claros */
-  .glass {
-    background: hsla(var(--glass-primary), 0.3);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid hsla(var(--border), 0.4);
-    box-shadow: var(--shadow-glass);
+  /* Card styles profissionais */
+  .card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
   }
 
-  .glass-card {
-    background: hsla(var(--card), 0.2);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid hsla(var(--border), 0.3);
-    box-shadow: var(--shadow-glass);
+  .card-elevated {
+    box-shadow: var(--shadow-elevated);
   }
 
-  .glass-surface {
-    background: hsla(var(--glass-secondary), 0.25);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid hsla(var(--border), 0.2);
+  .sidebar-style {
+    background: hsl(var(--sidebar-background));
+    color: hsl(var(--sidebar-foreground));
+    border-right: 1px solid hsl(var(--sidebar-border));
   }
 
   /* Glow effects mais suaves */
