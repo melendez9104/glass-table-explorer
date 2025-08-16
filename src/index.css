@@ -2,65 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system inspirado em dashboard profissional
-Layout clean com cards brancos e sidebar roxa
+/* Design system inspirado em dashboard moderno
+Cores frescas: verdes, turquesas, amarelo/mostaza com tarjetas flotantes
 */
 
 @layer base {
   :root {
-    /* Base colors - Fundo branco limpo */
-    --background: 0 0% 100%;
-    --foreground: 222 84% 4.9%;
+    /* Base colors - Fundo suave verde claro */
+    --background: 140 15% 96%;
+    --foreground: 180 15% 15%;
 
-    /* Cards brancos com sombra suave */
+    /* Cards elevados brancos */
     --card: 0 0% 100%;
-    --card-foreground: 222 84% 4.9%;
+    --card-foreground: 180 15% 15%;
 
     /* Popover limpo */
     --popover: 0 0% 100%;
-    --popover-foreground: 222 84% 4.9%;
+    --popover-foreground: 180 15% 15%;
 
-    /* Primary roxo profissional */
-    --primary: 262 83% 58%;
+    /* Primary verde fresco */
+    --primary: 165 85% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 262 83% 65%;
-    --primary-dark: 262 83% 45%;
+    --primary-light: 165 85% 55%;
+    --primary-dark: 165 85% 35%;
 
-    /* Secondary clean */
-    --secondary: 210 40% 98%;
-    --secondary-foreground: 222.2 84% 4.9%;
+    /* Secondary turquesa */
+    --secondary: 185 65% 55%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Muted elements */
-    --muted: 210 40% 98%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted elements suaves */
+    --muted: 140 15% 92%;
+    --muted-foreground: 180 15% 45%;
 
-    /* Accent suave */
-    --accent: 210 40% 98%;
-    --accent-foreground: 222.2 84% 4.9%;
+    /* Accent amarelo/mostaza vibrante */
+    --accent: 45 85% 60%;
+    --accent-foreground: 180 15% 15%;
 
-    /* Destructive clean */
-    --destructive: 0 84% 60%;
+    /* Destructive suave */
+    --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders e inputs clean */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 262 83% 58%;
+    /* Borders e inputs suaves */
+    --border: 140 20% 85%;
+    --input: 140 20% 90%;
+    --ring: 165 85% 45%;
 
-    /* Sidebar colors - roxo profissional */
-    --sidebar-background: 262 83% 58%;
+    /* Sidebar colors - bloque sólido verde oscuro */
+    --sidebar-background: 165 45% 25%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 262 83% 58%;
-    --sidebar-accent: 262 83% 65%;
+    --sidebar-primary-foreground: 165 45% 25%;
+    --sidebar-accent: 165 55% 35%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 262 83% 65%;
+    --sidebar-border: 165 35% 20%;
     --sidebar-ring: 0 0% 100%;
 
-    /* Card shadows profissionais */
-    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    /* KPI card colors */
+    --kpi-blue: 200 85% 55%;
+    --kpi-green: 145 75% 50%;
+    --kpi-purple: 270 65% 60%;
+    --kpi-orange: 35 85% 60%;
+
+    /* Card shadows flotantes para sensación de suspensión */
+    --shadow-card: 0 2px 8px 0 rgb(0 0 0 / 0.08), 0 1px 4px -1px rgb(0 0 0 / 0.06);
+    --shadow-elevated: 0 8px 25px -5px rgb(0 0 0 / 0.1), 0 8px 16px -8px rgb(0 0 0 / 0.1);
+    --shadow-floating: 0 12px 32px -8px rgb(0 0 0 / 0.12), 0 8px 20px -12px rgb(0 0 0 / 0.08);
+    --shadow-lg: 0 20px 40px -12px rgb(0 0 0 / 0.15), 0 8px 16px -8px rgb(0 0 0 / 0.1);
 
     /* Animation properties */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -89,22 +96,51 @@ Layout clean com cards brancos e sidebar roxa
     overflow-x: hidden;
   }
 
-  /* Card styles profissionais */
+  /* Card styles flotantes modernos */
   .card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
+    border-radius: calc(var(--radius) + 4px);
     box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
   }
 
   .card-elevated {
     box-shadow: var(--shadow-elevated);
+    transform: translateY(-2px);
+  }
+
+  .card-floating {
+    box-shadow: var(--shadow-floating);
+    transform: translateY(-4px);
   }
 
   .sidebar-style {
     background: hsl(var(--sidebar-background));
     color: hsl(var(--sidebar-foreground));
-    border-right: 1px solid hsl(var(--sidebar-border));
+    border-right: none;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* KPI Cards específicos */
+  .kpi-card-blue {
+    background: linear-gradient(135deg, hsl(var(--kpi-blue)) 0%, hsl(var(--kpi-blue) / 0.8) 100%);
+    color: white;
+  }
+
+  .kpi-card-green {
+    background: linear-gradient(135deg, hsl(var(--kpi-green)) 0%, hsl(var(--kpi-green) / 0.8) 100%);
+    color: white;
+  }
+
+  .kpi-card-purple {
+    background: linear-gradient(135deg, hsl(var(--kpi-purple)) 0%, hsl(var(--kpi-purple) / 0.8) 100%);
+    color: white;
+  }
+
+  .kpi-card-orange {
+    background: linear-gradient(135deg, hsl(var(--kpi-orange)) 0%, hsl(var(--kpi-orange) / 0.8) 100%);
+    color: white;
   }
 
   /* Glow effects mais suaves */

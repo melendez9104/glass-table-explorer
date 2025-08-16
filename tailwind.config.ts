@@ -27,7 +27,7 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					glow: 'hsl(var(--primary-glow))',
+					light: 'hsl(var(--primary-light))',
 					dark: 'hsl(var(--primary-dark))'
 				},
 				secondary: {
@@ -64,10 +64,11 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				glass: {
-					primary: 'hsl(var(--glass-primary))',
-					secondary: 'hsl(var(--glass-secondary))',
-					accent: 'hsl(var(--glass-accent))'
+				kpi: {
+					blue: 'hsl(var(--kpi-blue))',
+					green: 'hsl(var(--kpi-green))',
+					purple: 'hsl(var(--kpi-purple))',
+					orange: 'hsl(var(--kpi-orange))'
 				}
 			},
 			backgroundImage: {
@@ -76,9 +77,10 @@ export default {
 				'gradient-surface': 'var(--gradient-surface)'
 			},
 			boxShadow: {
-				'glass': 'var(--shadow-glass)',
-				'primary-glow': 'var(--shadow-primary)',
-				'elevated': 'var(--shadow-elevated)'
+				'card': 'var(--shadow-card)',
+				'elevated': 'var(--shadow-elevated)',
+				'floating': 'var(--shadow-floating)',
+				'lg': 'var(--shadow-lg)'
 			},
 			backdropBlur: {
 				'glass': '20px',
