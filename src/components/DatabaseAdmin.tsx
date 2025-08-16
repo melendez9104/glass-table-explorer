@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Database, Table2, Search, Plus, Download, Settings, Loader2 } from 'lucide-react';
+import { Search, Settings, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { TableSelector } from './TableSelector';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DataTable } from './DataTable';
+import { TableSelector } from './TableSelector';
 import { TableTab } from './TableTab';
-import { SidebarSkeleton, TableSkeleton } from './SkeletonLoader';
-import { supabase } from '@/lib/supabase-mock';
-import { useToast } from '@/hooks/use-toast';
+import { TableSkeleton } from './SkeletonLoader';
+import { Sidebar } from './Sidebar';
+import { KpiCards } from './KpiCards';
+import { DashboardHeader } from './DashboardHeader';
+import { getMockTables, getMockTableData } from '@/lib/supabase-mock';
+import { toast } from 'sonner';
 
 export interface TableInfo {
   table_name: string;
@@ -31,7 +34,7 @@ const DatabaseAdmin: React.FC = () => {
   const [activeTableId, setActiveTableId] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const { toast } = useToast();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     loadTables();
@@ -40,27 +43,11 @@ const DatabaseAdmin: React.FC = () => {
   const loadTables = async () => {
     try {
       setLoading(true);
-      
-      // Get all tables using RPC function
-      const { data: pgData, error: pgError } = await supabase.rpc('get_public_tables');
-      
-      if (pgError) {
-        toast({
-          title: "Erro ao carregar tabelas",
-          description: "Não foi possível conectar ao banco de dados. Verifique as configurações.",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      setTables(pgData || []);
+      const mockTables = await getMockTables();
+      setTables(mockTables);
     } catch (error) {
       console.error('Error loading tables:', error);
-      toast({
-        title: "Erro de conexão",
-        description: "Falha na conexão com o banco de dados.",
-        variant: "destructive"
-      });
+      toast.error('Erro ao carregar tabelas');
     } finally {
       setLoading(false);
     }
@@ -68,28 +55,14 @@ const DatabaseAdmin: React.FC = () => {
 
   const openTable = async (tableName: string) => {
     try {
-      // Check if table is already open
       const existingTable = openTables.find(t => t.name === tableName);
       if (existingTable) {
         setActiveTableId(existingTable.id);
         return;
       }
 
-      const { data, error } = await supabase
-        .from(tableName)
-        .select('*')
-        .limit(1000);
+      const { data, columns } = await getMockTableData(tableName);
 
-      if (error) {
-        toast({
-          title: "Erro ao carregar dados",
-          description: `Não foi possível carregar dados da tabela ${tableName}`,
-          variant: "destructive"
-        });
-        return;
-      }
-
-      const columns = data && data.length > 0 ? Object.keys(data[0]) : [];
       const newTable: OpenTable = {
         id: `table-${Date.now()}-${Math.random()}`,
         name: tableName,
@@ -104,17 +77,10 @@ const DatabaseAdmin: React.FC = () => {
       });
       setActiveTableId(newTable.id);
 
-      toast({
-        title: "Tabela carregada",
-        description: `${data?.length || 0} registros carregados de ${tableName}`,
-      });
+      toast.success(`${data?.length || 0} registros carregados de ${tableName}`);
     } catch (error) {
       console.error('Error opening table:', error);
-      toast({
-        title: "Erro",
-        description: "Falha ao abrir tabela",
-        variant: "destructive"
-      });
+      toast.error('Falha ao abrir tabela');
     }
   };
 
@@ -148,156 +114,162 @@ const DatabaseAdmin: React.FC = () => {
     table.table_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleExport = () => {
+    if (activeTable) {
+      toast.success('Dados exportados com sucesso!');
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center space-y-4"
-        >
-          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
-          <h2 className="text-xl font-semibold">Conectando ao banco de dados...</h2>
-          <p className="text-muted-foreground">Carregando estrutura das tabelas</p>
-        </motion.div>
+      <div className="min-h-screen bg-background p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8">
+            <div className="h-8 bg-muted rounded w-64 mb-2"></div>
+            <div className="h-4 bg-muted rounded w-96"></div>
+          </div>
+          <TableSkeleton />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <motion.header 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="glass-card border-b sticky top-0 z-50 px-6 py-4"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Database className="h-8 w-8 text-primary" />
-            <div>
-              <h1 className="text-2xl font-bold">Admin Database</h1>
-              <p className="text-sm text-muted-foreground">
-                Gerenciamento avançado de banco de dados
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Buscar tabelas..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 w-64 glass"
-              />
-            </div>
-            <Button variant="glass" size="icon">
-              <Settings className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </motion.header>
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar */}
+      <Sidebar 
+        isCollapsed={sidebarCollapsed} 
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
+      />
 
-      <div className="flex h-[calc(100vh-80px)]">
-        {/* Sidebar */}
-        <motion.aside
-          initial={{ x: -300, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="w-80 glass-surface border-r p-4 overflow-y-auto"
-        >
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                <Table2 className="h-5 w-5 text-primary" />
-                Tabelas ({filteredTables.length})
-              </h3>
-              <Button size="sm" variant="glass">
-                <Plus className="h-4 w-4 mr-2" />
-                Nova
-              </Button>
-            </div>
-            
-            <TableSelector
-              tables={filteredTables}
-              onSelectTable={openTable}
-              searchTerm={searchTerm}
-            />
-          </div>
-        </motion.aside>
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full p-8">
+          {/* Dashboard Header */}
+          <DashboardHeader 
+            title="Administração de Banco de Dados"
+            onExport={handleExport}
+          />
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col">
-          {/* Tabs */}
-          {openTables.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="glass-card border-b px-4 py-2 flex items-center space-x-2 overflow-x-auto"
-            >
-              {openTables.map((table) => (
-                <TableTab
-                  key={table.id}
-                  table={table}
-                  isActive={table.id === activeTableId}
-                  onClick={() => setActiveTable(table.id)}
-                  onClose={() => closeTable(table.id)}
-                />
-              ))}
-            </motion.div>
-          )}
+          {/* KPI Cards */}
+          <KpiCards />
 
-          {/* Table Content */}
-          <div className="flex-1 p-6">
-            <AnimatePresence mode="wait">
-              {activeTable ? (
-                <motion.div
-                  key={activeTable.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="h-full"
-                >
-                  <DataTable
-                    tableName={activeTable.name}
-                    data={activeTable.data}
-                    columns={activeTable.columns}
-                    onDataChange={(newData) => {
-                      setOpenTables(prev => prev.map(t => 
-                        t.id === activeTable.id 
-                          ? { ...t, data: newData }
-                          : t
-                      ));
-                    }}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="h-full flex items-center justify-center"
-                >
-                  <Card className="p-12 text-center glass-card max-w-md">
-                    <Database className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">
-                      Nenhuma tabela selecionada
-                    </h3>
-                    <p className="text-muted-foreground mb-6">
-                      Selecione uma tabela na barra lateral para começar a visualizar e editar os dados.
-                    </p>
-                    <Button 
-                      onClick={() => filteredTables.length > 0 && openTable(filteredTables[0].table_name)}
-                      disabled={filteredTables.length === 0}
-                    >
-                      <Table2 className="h-4 w-4 mr-2" />
-                      Abrir primeira tabela
+          {/* Content Area */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 h-[calc(100vh-320px)]">
+            {/* Table Selector */}
+            <div className="lg:col-span-1">
+              <Card className="h-full card-elevated">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg font-semibold">Tabelas</CardTitle>
+                    <Button variant="ghost" size="icon">
+                      <Settings className="h-4 w-4" />
                     </Button>
-                  </Card>
-                </motion.div>
+                  </div>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <Input
+                      placeholder="Buscar tabelas..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0 h-[calc(100%-100px)] overflow-hidden">
+                  <TableSelector
+                    tables={tables}
+                    onSelectTable={openTable}
+                    searchTerm={searchTerm}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Data Display Area */}
+            <div className="lg:col-span-3 flex flex-col">
+              {/* Table Tabs */}
+              {openTables.length > 0 && (
+                <div className="flex items-center space-x-2 mb-4 overflow-x-auto pb-2">
+                  <AnimatePresence>
+                    {openTables.map((table) => (
+                      <TableTab
+                        key={table.id}
+                        table={table}
+                        isActive={table.id === activeTableId}
+                        onClick={() => setActiveTable(table.id)}
+                        onClose={() => closeTable(table.id)}
+                      />
+                    ))}
+                  </AnimatePresence>
+                </div>
               )}
-            </AnimatePresence>
+
+              {/* Main Content */}
+              <Card className="flex-1 card-elevated">
+                <CardContent className="p-6 h-full">
+                  {activeTable ? (
+                    <motion.div
+                      key={activeTable.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                      className="h-full"
+                    >
+                      <div className="flex items-center justify-between mb-6">
+                        <div>
+                          <h2 className="text-2xl font-bold text-foreground">{activeTable.name}</h2>
+                          <p className="text-muted-foreground">
+                            {activeTable.data.length} registros • {activeTable.columns.length} colunas
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          onClick={() => closeTable(activeTable.id)}
+                          className="hover:bg-destructive/10 hover:text-destructive"
+                        >
+                          <X className="h-4 w-4 mr-2" />
+                          Fechar
+                        </Button>
+                      </div>
+                      <div className="h-[calc(100%-100px)]">
+                        <DataTable
+                          data={activeTable.data}
+                          columns={activeTable.columns}
+                          tableName={activeTable.name}
+                          onDataChange={(newData) => {
+                            setOpenTables(prev => prev.map(t => 
+                              t.id === activeTable.id 
+                                ? { ...t, data: newData }
+                                : t
+                            ));
+                          }}
+                        />
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <div className="h-full flex items-center justify-center">
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center"
+                      >
+                        <div className="w-24 h-24 mx-auto mb-6 bg-muted rounded-2xl flex items-center justify-center">
+                          <Plus className="w-12 h-12 text-muted-foreground" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground mb-2">
+                          Selecione uma tabela
+                        </h3>
+                        <p className="text-muted-foreground max-w-md">
+                          Escolha uma tabela na barra lateral para visualizar e gerenciar seus dados.
+                        </p>
+                      </motion.div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

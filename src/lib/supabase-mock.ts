@@ -93,3 +93,18 @@ export const mockSupabase = {
 
 // Export as default for easy import
 export const supabase = mockSupabase;
+
+export const getMockTables = async () => {
+  return [
+    { table_name: 'usuarios', column_count: 5, row_count: 5 },
+    { table_name: 'produtos', column_count: 5, row_count: 5 },
+    { table_name: 'pedidos', column_count: 6, row_count: 4 },
+    { table_name: 'categorias', column_count: 3, row_count: 4 }
+  ];
+};
+
+export const getMockTableData = async (tableName: string) => {
+  const data = createMockData(tableName);
+  const columns = data.length > 0 ? Object.keys(data[0]) : [];
+  return { data, columns };
+};
