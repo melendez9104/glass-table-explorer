@@ -5,30 +5,30 @@ import { Card } from '@/components/ui/card';
 
 const kpiData = [
   {
-    title: 'Tabelas Ativas',
-    value: '24',
-    icon: Database,
-    color: 'blue',
+    title: 'Fans Data',
+    value: '2387',
+    icon: Users,
+    color: 'green',
     trend: '+12%'
   },
   {
-    title: 'Total de Registros',
-    value: '1,428',
-    icon: Users,
-    color: 'green',
+    title: 'Income',
+    value: '3920',
+    icon: TrendingUp,
+    color: 'blue',
     trend: '+8%'
   },
   {
-    title: 'Consultas Hoje',
-    value: '156',
+    title: 'WON',
+    value: '12',
     icon: Activity,
-    color: 'purple',
+    color: 'pink',
     trend: '+23%'
   },
   {
-    title: 'Performance',
-    value: '98.5%',
-    icon: TrendingUp,
+    title: 'Net Price',
+    value: '893',
+    icon: Database,
     color: 'orange',
     trend: '+2%'
   }

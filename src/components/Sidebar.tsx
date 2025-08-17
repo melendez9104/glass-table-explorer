@@ -9,17 +9,25 @@ interface SidebarProps {
   isCollapsed: boolean;
   onToggle: () => void;
   onTableSelect?: (tableName: string) => void;
+  onSectionChange?: (section: string) => void;
+  currentSection?: string;
 }
 
 const menuItems = [
   { icon: Home, label: 'Home', active: false, id: 'home' },
-  { icon: Database, label: 'Tabelas', active: true, id: 'tables', hasSubmenu: true },
+  { icon: Database, label: 'Tabelas', active: false, id: 'tables', hasSubmenu: true },
   { icon: BarChart3, label: 'Relatórios', active: false, id: 'reports' },
   { icon: Settings, label: 'Configurações', active: false, id: 'settings' },
   { icon: HelpCircle, label: 'Suporte', active: false, id: 'support' },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onTableSelect }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ 
+  isCollapsed, 
+  onToggle, 
+  onTableSelect, 
+  onSectionChange, 
+  currentSection = 'home' 
+}) => {
   const [tablesSubmenuOpen, setTablesSubmenuOpen] = useState(true);
   const [tables, setTables] = useState<any[]>([]);
 
@@ -84,11 +92,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onTable
               onClick={() => {
                 if (item.id === 'tables' && !isCollapsed) {
                   setTablesSubmenuOpen(!tablesSubmenuOpen);
+                } else {
+                  onSectionChange?.(item.id);
                 }
               }}
               className={cn(
                 "w-full justify-start h-12 text-white/80 hover:text-white hover:bg-primary-light/20 transition-all duration-200",
-                item.active && "bg-primary-light/30 text-white font-medium",
+                currentSection === item.id && "bg-primary-light/30 text-white font-medium",
                 isCollapsed && "px-3 justify-center"
               )}
             >

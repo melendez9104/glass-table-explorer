@@ -57,11 +57,11 @@ Cores frescas: verdes, turquesas, amarelo/mostaza com tarjetas flotantes
     --sidebar-border: 165 35% 20%;
     --sidebar-ring: 0 0% 100%;
 
-    /* KPI card colors */
-    --kpi-blue: 200 85% 55%;
-    --kpi-green: 145 75% 50%;
-    --kpi-purple: 270 65% 60%;
-    --kpi-orange: 35 85% 60%;
+  /* KPI Card colors - matching the reference image */
+  --kpi-green: 140 85% 55%;    /* Verde vibrante como en la imagen */
+  --kpi-blue: 230 80% 60%;     /* Azul/morado como en la imagen */
+  --kpi-pink: 320 85% 65%;     /* Rosa/magenta como en la imagen */
+  --kpi-orange: 25 95% 60%;    /* Naranja como en la imagen */
 
     /* Card shadows flotantes para sensación de suspensión */
     --shadow-card: 0 2px 8px 0 rgb(0 0 0 / 0.08), 0 1px 4px -1px rgb(0 0 0 / 0.06);
@@ -133,8 +133,8 @@ Cores frescas: verdes, turquesas, amarelo/mostaza com tarjetas flotantes
     color: white;
   }
 
-  .kpi-card-purple {
-    background: linear-gradient(135deg, hsl(var(--kpi-purple)) 0%, hsl(var(--kpi-purple) / 0.8) 100%);
+  .kpi-card-pink {
+    background: linear-gradient(135deg, hsl(var(--kpi-pink)) 0%, hsl(var(--kpi-pink) / 0.8) 100%);
     color: white;
   }
 
