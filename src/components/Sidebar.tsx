@@ -1,23 +1,40 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Home, Database, BarChart3, Settings, HelpCircle, LogOut, Menu } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Home, Database, BarChart3, Settings, HelpCircle, LogOut, Menu, ChevronDown, ChevronRight, Table2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { getMockTables } from '@/lib/supabase-mock';
 
 interface SidebarProps {
   isCollapsed: boolean;
   onToggle: () => void;
+  onTableSelect?: (tableName: string) => void;
 }
 
 const menuItems = [
-  { icon: Home, label: 'Home', active: false },
-  { icon: Database, label: 'Tabelas', active: true },
-  { icon: BarChart3, label: 'Relatórios', active: false },
-  { icon: Settings, label: 'Configurações', active: false },
-  { icon: HelpCircle, label: 'Suporte', active: false },
+  { icon: Home, label: 'Home', active: false, id: 'home' },
+  { icon: Database, label: 'Tabelas', active: true, id: 'tables', hasSubmenu: true },
+  { icon: BarChart3, label: 'Relatórios', active: false, id: 'reports' },
+  { icon: Settings, label: 'Configurações', active: false, id: 'settings' },
+  { icon: HelpCircle, label: 'Suporte', active: false, id: 'support' },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, onTableSelect }) => {
+  const [tablesSubmenuOpen, setTablesSubmenuOpen] = useState(true);
+  const [tables, setTables] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadTables = async () => {
+      try {
+        const tablesList = await getMockTables();
+        setTables(tablesList);
+      } catch (error) {
+        console.error('Error loading tables:', error);
+      }
+    };
+    
+    loadTables();
+  }, []);
   return (
     <motion.div
       initial={false}
@@ -53,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2">
+      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item, index) => (
           <motion.div
             key={item.label}
@@ -61,8 +78,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
           >
+            {/* Main Menu Item */}
             <Button
               variant="ghost"
+              onClick={() => {
+                if (item.id === 'tables' && !isCollapsed) {
+                  setTablesSubmenuOpen(!tablesSubmenuOpen);
+                }
+              }}
               className={cn(
                 "w-full justify-start h-12 text-white/80 hover:text-white hover:bg-primary-light/20 transition-all duration-200",
                 item.active && "bg-primary-light/30 text-white font-medium",
@@ -71,15 +94,62 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
             >
               <item.icon className={cn("w-5 h-5", !isCollapsed && "mr-3")} />
               {!isCollapsed && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  {item.label}
-                </motion.span>
+                <>
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="flex-1 text-left"
+                  >
+                    {item.label}
+                  </motion.span>
+                  {item.hasSubmenu && (
+                    <motion.div
+                      animate={{ rotate: tablesSubmenuOpen ? 90 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </motion.div>
+                  )}
+                </>
               )}
             </Button>
+
+            {/* Submenu for Tables */}
+            {item.id === 'tables' && !isCollapsed && (
+              <AnimatePresence>
+                {tablesSubmenuOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="ml-8 mt-2 space-y-1 overflow-hidden"
+                  >
+                    {tables.map((table, tableIndex) => (
+                      <motion.div
+                        key={table.table_name}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: tableIndex * 0.05 }}
+                      >
+                        <Button
+                          variant="ghost"
+                          onClick={() => onTableSelect?.(table.table_name)}
+                          className="w-full justify-start h-10 text-white/60 hover:text-white hover:bg-primary-light/15 transition-all duration-200 text-sm"
+                        >
+                          <Table2 className="w-4 h-4 mr-2" />
+                          <span className="truncate">{table.table_name}</span>
+                          <span className="ml-auto text-xs text-white/40">
+                            {table.row_count}
+                          </span>
+                        </Button>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            )}
           </motion.div>
         ))}
       </nav>

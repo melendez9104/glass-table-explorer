@@ -139,7 +139,8 @@ const DatabaseAdmin: React.FC = () => {
       {/* Sidebar */}
       <Sidebar 
         isCollapsed={sidebarCollapsed} 
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onTableSelect={openTable}
       />
 
       {/* Main Content */}
